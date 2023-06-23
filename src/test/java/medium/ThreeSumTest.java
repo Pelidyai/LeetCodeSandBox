@@ -1,4 +1,6 @@
-import org.example.ThreeSum;
+package medium;
+
+import org.example.medium.ThreeSum;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
