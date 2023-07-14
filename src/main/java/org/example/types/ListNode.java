@@ -1,4 +1,4 @@
-package org.example.easy.palindrome;
+package org.example.types;
 
 
 public class ListNode {

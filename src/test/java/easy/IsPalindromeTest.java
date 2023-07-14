@@ -1,7 +1,7 @@
 package easy;
 
-import org.example.easy.palindrome.IsPalindrome;
-import org.example.easy.palindrome.ListNode;
+import org.example.easy.IsPalindrome;
+import org.example.types.ListNode;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

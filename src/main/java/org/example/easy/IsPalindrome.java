@@ -1,4 +1,6 @@
-package org.example.easy.palindrome;
+package org.example.easy;
+
+import org.example.types.ListNode;
 
 public class IsPalindrome {
     //https://leetcode.com/problems/palindrome-linked-list/
