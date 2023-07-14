@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class SortedTwoSumTest {
+    //https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/
     @Test
     public void testSortedTwoSum1() {
         int[] input = new int[]{2, 3, 4};
