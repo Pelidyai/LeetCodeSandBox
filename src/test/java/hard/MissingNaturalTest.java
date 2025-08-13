@@ -10,8 +10,8 @@ public class MissingNaturalTest {
 
     @Test
     public void test1() {
-        int i = MissingNatural.firstMissingPositive(new int[]{1, 2, 0});
-        assertEquals(3, i);
+        int i = MissingNatural.firstMissingPositive(new int[]{1});
+        assertEquals(2, i);
     }
 
     @Test
@@ -36,5 +36,11 @@ public class MissingNaturalTest {
     public void test5() {
         int i = MissingNatural.firstMissingPositive(new int[]{1, 2, 6, 3, 5, 4});
         assertEquals(7, i);
+    }
+
+    @Test
+    public void test6() {
+        int i = MissingNatural.firstMissingPositive(new int[]{-1, 4, 2, 1, 9, 10});
+        assertEquals(3, i);
     }
 }

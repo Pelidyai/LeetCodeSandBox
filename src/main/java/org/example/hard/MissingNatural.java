@@ -1,24 +1,22 @@
 package org.example.hard;
 
-import java.util.Set;
-import java.util.TreeSet;
-
 public class MissingNatural {
     //https://leetcode.com/problems/first-missing-positive/description/
     public static int firstMissingPositive(int[] nums) {
-        final Set<Integer> set = new TreeSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+                i--;
+            }
+        }
+        int res = 1;
         for (int num : nums) {
-            if (num > 0) {
-                set.add(num);
+            if (num == res) {
+                res++;
             }
         }
-        int reference = 1;
-        for (Integer i : set) {
-            if (i != reference) {
-                return reference;
-            }
-            reference++;
-        }
-        return reference;
+        return res;
     }
 }
