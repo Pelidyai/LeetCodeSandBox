@@ -1,61 +1,47 @@
 package org.example.hard;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CheckIfDigitsAreEqualInStringAfterOperationsII {
-
-    private static final int STEP = 70;
-
-    private List<BigInteger> computed = null;
-
-    private List<BigInteger> compute(int n) {
-        n--;
-        List<BigInteger> res = new ArrayList<>();
-        BigInteger prev = BigInteger.ONE;
-        res.add(prev);
-        for (int i = 1; i <= n; i++) {
-            BigInteger curr = prev.multiply(BigInteger.valueOf(n - i + 1)).divide(BigInteger.valueOf(i));
-            res.add(curr);
-            prev = curr;
-        }
-        return res;
-    }
-
-    private List<BigInteger> nthRowOfPascalTriangle(int n) {
-        if (n == STEP) {
-            if (computed == null) {
-                computed = compute(n);
-            }
-            return computed;
-        }
-        return compute(n);
-    }
+    //https://leetcode.com/problems/check-if-digits-are-equal-in-string-after-operations-ii/description/
 
     public boolean hasSameDigits(String s) {
-        while (s.length() > STEP) {
-            final StringBuilder newStr = new StringBuilder();
-            int i = 0;
-            for (; i < s.length() - STEP + 1; i++) {
-                String substring = s.substring(i, i + STEP);
-                int value = computeOperationForSubstring(substring);
-                newStr.append(value);
-            }
-            s = newStr.toString();
+        int rowNumber = s.length() - 2;
+        BigInteger prev = BigInteger.ONE;
+        final Map<Integer, BigInteger> firstCoefficients = new HashMap<>();
+        final Map<Integer, BigInteger> secondCoefficients = new HashMap<>();
+        long sum = 0;
+        for (int i = 1; i <= rowNumber; i++) {
+            long start = System.currentTimeMillis();
+            final BigInteger coefficient = prev.multiply(BigInteger.valueOf(rowNumber - i + 1)).divide(BigInteger.valueOf(i));
+            sum += System.currentTimeMillis() - start;
+
+            firstCoefficients.compute(s.charAt(i) - 48, (integer, bigInteger) -> {
+                if (bigInteger == null) {
+                    return coefficient;
+                }
+                return bigInteger.add(coefficient);
+            });
+            secondCoefficients.compute(s.charAt(i + 1) - 48, (integer, bigInteger) -> {
+                if (bigInteger == null) {
+                    return coefficient;
+                }
+                return bigInteger.add(coefficient);
+            });
+            prev = coefficient;
         }
-        int first = computeOperationForSubstring(s.substring(0, s.length() - 1));
-        int second = computeOperationForSubstring(s.substring(1));
-        return first == second;
+        System.out.println("INNER TIME:" + (sum));
+        BigInteger firstNum = multiplyAll(BigInteger.valueOf(s.charAt(0) - 48), firstCoefficients);
+        BigInteger secondNum = multiplyAll(BigInteger.valueOf(s.charAt(1) - 48), secondCoefficients);
+        return firstNum.remainder(BigInteger.TEN).equals(secondNum.remainder(BigInteger.TEN));
     }
 
-    private int computeOperationForSubstring(String s) {
-        int rowNumber = Math.min(s.length(), STEP);
-        List<BigInteger> row = nthRowOfPascalTriangle(rowNumber);
-        BigInteger firstNum = BigInteger.ZERO;
-        for (int i = 0; i < rowNumber; i++) {
-            firstNum = firstNum.add(BigInteger.valueOf(s.charAt(i) - 48).multiply(row.get(i)));
+    private BigInteger multiplyAll(BigInteger num, Map<Integer, BigInteger> coeffs) {
+        for (Map.Entry<Integer, BigInteger> entry : coeffs.entrySet()) {
+            num = num.add(entry.getValue().multiply(BigInteger.valueOf(entry.getKey())));
         }
-        return firstNum.remainder(BigInteger.TEN).intValue();
+        return num;
     }
 }
